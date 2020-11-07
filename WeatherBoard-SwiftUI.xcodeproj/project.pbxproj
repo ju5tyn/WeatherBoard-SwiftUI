@@ -8,18 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		3A22014D255458FB00783BB6 /* WeatherBoard_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22014C255458FB00783BB6 /* WeatherBoard_SwiftUIApp.swift */; };
-		3A22014F255458FB00783BB6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22014E255458FB00783BB6 /* ContentView.swift */; };
+		3A22014F255458FB00783BB6 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A22014E255458FB00783BB6 /* MainView.swift */; };
 		3A220151255458FF00783BB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A220150255458FF00783BB6 /* Assets.xcassets */; };
 		3A220154255458FF00783BB6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A220153255458FF00783BB6 /* Preview Assets.xcassets */; };
+		3ABC507E2556A21B002D5285 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABC507D2556A21B002D5285 /* WeatherView.swift */; };
+		3AF99D0125554DB500072937 /* SF-Compact-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3AF99CF7255540B800072937 /* SF-Compact-Text-Semibold.otf */; };
+		3AF99D0325554DBE00072937 /* SF-Compact-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3AF99CF6255540B700072937 /* SF-Compact-Text-Bold.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3A220149255458FB00783BB6 /* WeatherBoard-SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WeatherBoard-SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A22014C255458FB00783BB6 /* WeatherBoard_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherBoard_SwiftUIApp.swift; sourceTree = "<group>"; };
-		3A22014E255458FB00783BB6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3A22014E255458FB00783BB6 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3A220150255458FF00783BB6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3A220153255458FF00783BB6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3A220155255458FF00783BB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3ABC507D2556A21B002D5285 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
+		3AF99CF6255540B700072937 /* SF-Compact-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Text-Bold.otf"; sourceTree = "<group>"; };
+		3AF99CF7255540B800072937 /* SF-Compact-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Text-Semibold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,9 +59,11 @@
 			isa = PBXGroup;
 			children = (
 				3A22014C255458FB00783BB6 /* WeatherBoard_SwiftUIApp.swift */,
-				3A22014E255458FB00783BB6 /* ContentView.swift */,
+				3ABC507D2556A21B002D5285 /* WeatherView.swift */,
+				3A22014E255458FB00783BB6 /* MainView.swift */,
 				3A220150255458FF00783BB6 /* Assets.xcassets */,
 				3A220155255458FF00783BB6 /* Info.plist */,
+				3AF99CF52555408C00072937 /* Resources */,
 				3A220152255458FF00783BB6 /* Preview Content */,
 			);
 			path = "WeatherBoard-SwiftUI";
@@ -67,6 +75,15 @@
 				3A220153255458FF00783BB6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3AF99CF52555408C00072937 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3AF99CF6255540B700072937 /* SF-Compact-Text-Bold.otf */,
+				3AF99CF7255540B800072937 /* SF-Compact-Text-Semibold.otf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,7 +143,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AF99D0125554DB500072937 /* SF-Compact-Text-Semibold.otf in Resources */,
 				3A220154255458FF00783BB6 /* Preview Assets.xcassets in Resources */,
+				3AF99D0325554DBE00072937 /* SF-Compact-Text-Bold.otf in Resources */,
 				3A220151255458FF00783BB6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,7 +157,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A22014F255458FB00783BB6 /* ContentView.swift in Sources */,
+				3ABC507E2556A21B002D5285 /* WeatherView.swift in Sources */,
+				3A22014F255458FB00783BB6 /* MainView.swift in Sources */,
 				3A22014D255458FB00783BB6 /* WeatherBoard_SwiftUIApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,6 +297,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WeatherBoard-SwiftUI/WeatherBoard/Pods/Realm/core",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justynhenman.WeatherBoard-SwiftUI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -298,6 +322,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WeatherBoard-SwiftUI/WeatherBoard/Pods/Realm/core",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justynhenman.WeatherBoard-SwiftUI";
 				PRODUCT_NAME = "$(TARGET_NAME)";

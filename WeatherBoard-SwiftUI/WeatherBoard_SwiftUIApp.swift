@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct WeatherBoard_SwiftUIApp: App {
+    
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
+            
+            
         }
     }
 }
