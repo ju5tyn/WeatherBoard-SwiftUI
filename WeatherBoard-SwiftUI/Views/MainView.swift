@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-let shadowColor = Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 0.3)
+let shadowColor = Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 0.3)
 
 struct MainView: View {
     
@@ -23,8 +23,12 @@ struct MainView: View {
         ZStack {
             Group {
                 Background()
-                    .animation(.easeInOut)
-                BlurEffect(isBlurred: viewRouter.isBlurred)
+                    .blur(radius: viewRouter.isBlurred ? 40 : 0)
+                    .scaleEffect(viewRouter.isBlurred ? 1.3 : 1, anchor: .center)
+                    .saturation(viewRouter.isBlurred ? 1.2 : 1)
+                    .animation(.easeInOut(duration: 0.2))
+                Rectangle()
+                    .foregroundColor(viewRouter.isBlurred ? Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.1) : .clear)
             }
             .edgesIgnoringSafeArea(.all)
             VStack {
@@ -77,34 +81,6 @@ struct MenuBar: View {
     
 }
 
-//MARK: - Blur Effect
-
-struct BlurEffect: UIViewRepresentable {
-    
-    var isBlurred: Bool
-    var effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
-    
-    
-    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView {
-        let view = UIVisualEffectView()
-        UIView.animate(withDuration: 1) {
-            view.effect = nil
-        }
-        return view
-    }
-    
-    func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) {
-        UIView.animate(withDuration: 0.4) {
-            if isBlurred{
-                uiView.effect = effect
-            }else{
-                uiView.effect = nil
-            }
-            
-        }
-    }
-
-}
 
 //MARK: - Blur effect
 
