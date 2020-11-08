@@ -13,6 +13,7 @@ struct WeatherView: View{
     
     let largeFont = Font.custom("SFCompactText-Bold", size: 34)
     let smallFont = Font.custom("SFCompactText-Bold", size: 17)
+    let shadowColor = Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 0.3)
     
     var body: some View{
         
@@ -22,9 +23,11 @@ struct WeatherView: View{
                 .foregroundColor(.white)
                 .font(largeFont)
                 .padding(.bottom, 3)
+                .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
             Text("12:35 - Sydney")
                 .foregroundColor(.white)
                 .font(smallFont)
+                .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
         }
     }
 }

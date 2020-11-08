@@ -1,70 +1,11 @@
 //
-//  ContentView.swift
+//  DetailsView.swift
 //  WeatherBoard-SwiftUI
 //
-//  Created by Justyn Henman on 05/11/2020.
+//  Created by Justyn Henman on 07/11/2020.
 //
 
 import SwiftUI
-
-struct MainView: View {
-    
-    
-    
-    //view
-    var body: some View {
-        VStack {
-            HStack {
-                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {Image("menu_24pt_white")} )
-                    .padding([.top, .leading], 25.0)
-                    .padding(.bottom, 20.0)
-                Spacer()
-            }
-            DetailsView()
-            Spacer()
-            NavBar()
-                .padding(.bottom, 30)
-        }
-    }
-}
-
-
-//MARK: - Navigation Bar
-
-struct NavBar: View{
-    
-    let navFont = Font.custom("SFCompactText-Bold", size: 16)
-    
-    var body: some View {
-    
-        HStack{
-            Spacer()
-            Button(action: {}) {
-                Text("TODAY")
-                    .foregroundColor(.white)
-                    .font(navFont)
-                    .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            }
-            Spacer(minLength: 23)
-            Button(action: {}) {
-                Text("TOMORROW")
-                    .foregroundColor(.white)
-                    .font(navFont)
-                    .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            }
-            Spacer(minLength: 23)
-            Button(action: {}) {
-                Text("MORE")
-                    .foregroundColor(.white)
-                    .font(navFont)
-                    .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            }
-            Spacer()
-        }
-    }
-}
-
-
 
 //MARK: - Details View
 
@@ -72,18 +13,15 @@ struct DetailsView: View{
     
     var body: some View{
         
-        List{
+        ScrollView{
             DetailsCell(extended: true)
             DetailsCell(extended: false)
             DetailsCell(extended: false)
             DetailsCell(extended: false)
             DetailsCell(extended: false)
         }
-        .padding(.horizontal, 15.0)
-        
         
     }
-    
 }
 
 //MARK: Details Cell
@@ -92,14 +30,12 @@ struct DetailsCell: View{
     
     @State var extended: Bool
     
-    let exDayFont = Font.custom("SFCompactText-Bold", size: 15)
-    let dayFont = Font.custom("SFCompactText-Bold", size: 20)
-    let conditionFont = Font.custom("SFCompactText-Bold", size: 35)
-    let hiLoFont = Font.custom("SFCompactText-Bold", size: 18)
-    let exTempFont = Font.custom("SFCompactText-Bold", size: 50)
-    let tempFont = Font.custom("SFCompactText-Bold", size: 25)
-    
-    
+    let exDayFont = Font.custom(Strings.font, size: 15)
+    let dayFont = Font.custom(Strings.font, size: 20)
+    let conditionFont = Font.custom(Strings.font, size: 35)
+    let hiLoFont = Font.custom(Strings.font, size: 18)
+    let exTempFont = Font.custom(Strings.font, size: 50)
+    let tempFont = Font.custom(Strings.font, size: 25)
     
     var body: some View{
         
@@ -147,15 +83,23 @@ struct DetailsCell: View{
             if extended{
                 HStack{
                     DetailsRect(hasSubheading: true, icon: .rain)
+                    
                     DetailsRect(hasSubheading: true, icon: .wind)
                     DetailsRect(hasSubheading: false, icon: .cloud)
                     DetailsRect(hasSubheading: false, icon: .visibility)
                 }
-                
             }
             
-        }.animation(.default)
+        }
+        
+        .padding(.horizontal, 25.0)
+        .animation(.easeInOut(duration: 0.2))
+        .onTapGesture(perform: {
+            extended.toggle()
+        })
     }
+    
+    
 }
 
 //MARK: Details Rect
@@ -167,9 +111,9 @@ struct DetailsRect: View{
     let hasSubheading: Bool
     let icon: IconType
     
-    let rectLargeFont = Font.custom("SFCompactText-Bold", size: 20)
-    let rectMedFont = Font.custom("SFCompactText-Bold", size: 15)
-    let rectSmallFont = Font.custom("SFCompactText-Bold", size: 12)
+    let rectLargeFont = Font.custom(Strings.font, size: 20)
+    let rectMedFont = Font.custom(Strings.font, size: 15)
+    let rectSmallFont = Font.custom(Strings.font, size: 12)
     
     var body: some View{
         
@@ -177,6 +121,7 @@ struct DetailsRect: View{
             Rectangle()
                 .cornerRadius(10)
                 .opacity(0.5)
+                .shadow(color: Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 0.2), radius: 2, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y:2)
             VStack{
                 switch icon{
                     case .rain:
@@ -215,17 +160,10 @@ struct DetailsRect: View{
     
 }
 
-//MARK: - preview
-
-struct ContentView_Previews: PreviewProvider {
+struct DetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            MainView()
-                .previewDevice("iPhone XS")
-                .preferredColorScheme(.dark)
-        }
+        DetailsView()
+            .previewLayout(.sizeThatFits)
+            .preferredColorScheme(.dark)
     }
 }
-
-
-
