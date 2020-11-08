@@ -8,26 +8,25 @@
 import SwiftUI
 import Combine
 
+let shadowColor = Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 0.3)
+
 struct MainView: View {
     
     @ObservedObject var viewRouter = ViewRouter()
     
     let bgGradient = Gradient(colors: [Color("grad_clear_day_top"), Color("grad_clear_day_bottom")])
     let hillGradient = Gradient(colors: [Color("hill_clear_day_top"), Color("hill_clear_day_bottom")])
-    let shadowColor = Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 0.3)
     
     
     //view
     var body: some View {
         ZStack {
-            Background()
-                //.scaleEffect(viewRouter.isBlurred ? 1.1 : 1)
-                .animation(.easeInOut)
-                .edgesIgnoringSafeArea(.all)
-        
-            BlurEffectView(isBlurred: viewRouter.isBlurred)
-                .edgesIgnoringSafeArea(.all)
-            
+            Group {
+                Background()
+                    .animation(.easeInOut)
+                BlurEffect(isBlurred: viewRouter.isBlurred)
+            }
+            .edgesIgnoringSafeArea(.all)
             VStack {
                 //Menu button
                 HStack {
@@ -49,7 +48,38 @@ struct MainView: View {
     }
 }
 
-struct BlurEffectView: UIViewRepresentable {
+struct MenuBar: View {
+    
+    let titleFont = Font.custom(Strings.font, size: 16)
+    
+    let rightImage = "menu_24pt_white"
+    let leftImage = "menu_24pt_white"
+    
+    var body: some View{
+        VStack{
+            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {Image("menu_24pt_white")} )
+                .padding([.top, .leading], 25.0)
+                .padding(.bottom, 20.0)
+                .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
+            Text("WeatherBoard").font(titleFont)
+            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {Image("menu_24pt_white")} )
+                .padding([.top, .leading], 25.0)
+                .padding(.bottom, 20.0)
+                .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
+            
+        }
+        
+    }
+    
+    
+    
+    
+    
+}
+
+//MARK: - Blur Effect
+
+struct BlurEffect: UIViewRepresentable {
     
     var isBlurred: Bool
     var effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
@@ -75,6 +105,8 @@ struct BlurEffectView: UIViewRepresentable {
     }
 
 }
+
+//MARK: - Blur effect
 
 struct Background: View{
     

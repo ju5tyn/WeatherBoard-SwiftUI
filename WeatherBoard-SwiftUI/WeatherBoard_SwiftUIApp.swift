@@ -11,9 +11,11 @@ import SwiftUI
 struct WeatherBoard_SwiftUIApp: App {
     
     
+    
     var body: some Scene {
         WindowGroup {
             MainView()
+                .colorScheme(.dark)
             
             
         }

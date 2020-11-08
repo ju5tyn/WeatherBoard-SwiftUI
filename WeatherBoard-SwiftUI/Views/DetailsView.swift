@@ -17,7 +17,7 @@ struct DetailsView: View{
         
         ScrollView{
             ForEach(/*@START_MENU_TOKEN@*/0 ..< 5/*@END_MENU_TOKEN@*/) { id in
-                DetailsCell(extended: true, id: id, viewRouter: viewRouter)
+                DetailsCell(extended: false, id: id, viewRouter: viewRouter)
             }
 
         }
@@ -49,7 +49,7 @@ struct DetailsCell: View{
                     Spacer()
                     Image("icon_clear_day")
                         .resizable()
-                        .frame(width: extended ? 100 : 50, height: extended ? 100 : 50, alignment: .center)
+                        .frame(width: extended ? 110 : 50, height: extended ? 110 : 50, alignment: .center)
                 }
                 .padding(.bottom, -5)
             }
@@ -96,24 +96,17 @@ struct DetailsCell: View{
             
         }
         
-        .padding(.horizontal, 25.0)
+        .padding(.horizontal, 30.0)
         .animation(.easeInOut(duration: 0.2))
+        .contentShape(Rectangle())
         .onTapGesture(perform: {
             viewRouter.currentCell = id
         })
         .onAppear(perform: {
-            if viewRouter.currentCell == id{
-                extended = true
-            }else{
-                extended = false
-            }
+            extended = viewRouter.currentCell == id ? true : false
         })
         .onChange(of: viewRouter.currentCell, perform: { value in
-            if viewRouter.currentCell == id{
-                extended = true
-            }else{
-                extended = false
-            }
+            extended = viewRouter.currentCell == id ? true : false
         })
     }
     
@@ -138,7 +131,7 @@ struct DetailsRect: View{
         ZStack {
             Rectangle()
                 .cornerRadius(10)
-                .opacity(0.5)
+                .opacity(0.2)
                 .shadow(color: Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 0.2), radius: 2, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y:2)
             VStack{
                 switch icon{
