@@ -16,16 +16,18 @@ struct MainView: View {
     let hillGradient = Gradient(colors: [Color("hill_clear_day_top"), Color("hill_clear_day_bottom")])
     let shadowColor = Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 0.3)
     
-
+    
     //view
     var body: some View {
         ZStack {
             Background()
-                .scaleEffect(viewRouter.isBlurred ? 1.1 : 1)
-                .blur(radius: viewRouter.isBlurred ? 10 : 0, opaque: false)
-                
+                //.scaleEffect(viewRouter.isBlurred ? 1.1 : 1)
                 .animation(.easeInOut)
                 .edgesIgnoringSafeArea(.all)
+        
+            BlurEffectView(isBlurred: viewRouter.isBlurred)
+                .edgesIgnoringSafeArea(.all)
+            
             VStack {
                 //Menu button
                 HStack {
@@ -47,6 +49,33 @@ struct MainView: View {
     }
 }
 
+struct BlurEffectView: UIViewRepresentable {
+    
+    var isBlurred: Bool
+    var effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
+    
+    
+    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView {
+        let view = UIVisualEffectView()
+        UIView.animate(withDuration: 1) {
+            view.effect = nil
+        }
+        return view
+    }
+    
+    func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) {
+        UIView.animate(withDuration: 0.4) {
+            if isBlurred{
+                uiView.effect = effect
+            }else{
+                uiView.effect = nil
+            }
+            
+        }
+    }
+
+}
+
 struct Background: View{
     
     let bgGradient = Gradient(colors: [Color("grad_clear_day_top"), Color("grad_clear_day_bottom")])
@@ -60,6 +89,9 @@ struct Background: View{
             VStack {
                 Spacer()
                 Image("hills")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    
             })
             .edgesIgnoringSafeArea(.vertical)
         

@@ -21,4 +21,6 @@ class ViewRouter: ObservableObject {
         return currentView == .details ? true : false
     }
     
+    @Published var currentCell: Int = 0
+    
 }

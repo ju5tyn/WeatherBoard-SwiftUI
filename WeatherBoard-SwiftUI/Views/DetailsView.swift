@@ -11,14 +11,15 @@ import SwiftUI
 
 struct DetailsView: View{
     
+    @ObservedObject var viewRouter = ViewRouter()
+    
     var body: some View{
         
         ScrollView{
-            DetailsCell(extended: true)
-            DetailsCell(extended: false)
-            DetailsCell(extended: false)
-            DetailsCell(extended: false)
-            DetailsCell(extended: false)
+            ForEach(/*@START_MENU_TOKEN@*/0 ..< 5/*@END_MENU_TOKEN@*/) { id in
+                DetailsCell(extended: true, id: id, viewRouter: viewRouter)
+            }
+
         }
         
     }
@@ -29,6 +30,9 @@ struct DetailsView: View{
 struct DetailsCell: View{
     
     @State var extended: Bool
+    
+    var id: Int
+    @ObservedObject var viewRouter = ViewRouter()
     
     let exDayFont = Font.custom(Strings.font, size: 15)
     let dayFont = Font.custom(Strings.font, size: 20)
@@ -95,7 +99,21 @@ struct DetailsCell: View{
         .padding(.horizontal, 25.0)
         .animation(.easeInOut(duration: 0.2))
         .onTapGesture(perform: {
-            extended.toggle()
+            viewRouter.currentCell = id
+        })
+        .onAppear(perform: {
+            if viewRouter.currentCell == id{
+                extended = true
+            }else{
+                extended = false
+            }
+        })
+        .onChange(of: viewRouter.currentCell, perform: { value in
+            if viewRouter.currentCell == id{
+                extended = true
+            }else{
+                extended = false
+            }
         })
     }
     
