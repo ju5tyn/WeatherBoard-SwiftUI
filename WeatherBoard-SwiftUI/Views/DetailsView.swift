@@ -9,6 +9,9 @@ import SwiftUI
 
 //MARK: - Details View
 
+//let shadowColor = Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.2)
+
+
 struct DetailsView: View{
     
     @ObservedObject var viewRouter = ViewRouter()
@@ -28,6 +31,8 @@ struct DetailsView: View{
 //MARK: Details Cell
 
 struct DetailsCell: View{
+    
+    
     
     @State var extended: Bool
     
@@ -57,23 +62,28 @@ struct DetailsCell: View{
             HStack {
                 VStack(alignment: .leading) {
                     Text("Today")
+                        .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                         .font(extended ? exDayFont : dayFont)
                         .opacity(extended ? 0.6 : 1)
                     if extended{
                         Text("Clear")
+                            .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                             .font(conditionFont)
                             .opacity(extended ? 1 : 0)
                     }
                 }
                 Spacer()
                 Text("19°")
+                    .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                     .font(extended ? exTempFont : tempFont)
                 if extended{
                     VStack {
                         Text("19°")
+                            .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                             .font(hiLoFont)
                             .opacity(0.6)
                         Text("19°")
+                            .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                             .font(hiLoFont)
                             .opacity(0.6)
                     }
@@ -132,7 +142,7 @@ struct DetailsRect: View{
             Rectangle()
                 .cornerRadius(10)
                 .opacity(0.2)
-                .shadow(color: Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 0.2), radius: 2, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y:2)
+                .shadow(color: Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.5), radius: 2, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y:2)
             VStack{
                 switch icon{
                     case .rain:
@@ -153,14 +163,17 @@ struct DetailsRect: View{
                 if hasSubheading{
                     Text("NW")
                         .font(rectMedFont)
+                        .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                     Text("40MPH")
                         .font(rectSmallFont)
                         .padding(.bottom, 5)
+                        .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                 }else{
                     
                     Text("16KM")
                         .font(rectLargeFont)
                         .padding(.top, 10)
+                        .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                 }
                 
             }.padding([.top, .bottom], 2)

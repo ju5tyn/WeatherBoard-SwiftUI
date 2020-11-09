@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-let shadowColor = Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 0.3)
+let shadowColor = Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.2)
 
 struct MainView: View {
     
@@ -23,24 +23,20 @@ struct MainView: View {
         ZStack {
             Group {
                 Background()
-                    .blur(radius: viewRouter.isBlurred ? 40 : 0)
-                    .scaleEffect(viewRouter.isBlurred ? 1.3 : 1, anchor: .center)
-                    .saturation(viewRouter.isBlurred ? 1.2 : 1)
+                    .blur(radius: viewRouter.isBlurred && !viewRouter.menuShown ? 40 : 0)
+                    .scaleEffect(x: viewRouter.isBlurred && !viewRouter.menuShown ? 1.3 : 1, y: viewRouter.isBlurred && !viewRouter.menuShown ? 1.1 : 1, anchor: .center)
+                    .saturation(viewRouter.isBlurred && !viewRouter.menuShown ? 1.2 : 1)
                     .animation(.easeInOut(duration: 0.2))
                 Rectangle()
-                    .foregroundColor(viewRouter.isBlurred ? Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.1) : .clear)
+                    .foregroundColor(viewRouter.isBlurred && !viewRouter.menuShown ? Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.1) : .clear)
             }
             .edgesIgnoringSafeArea(.all)
             VStack {
                 //Menu button
-                HStack {
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {Image("menu_24pt_white")} )
-                        .padding([.top, .leading], 25.0)
-                        .padding(.bottom, 20.0)
-                        .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
-                    Spacer()
-                }
-                if (self.viewRouter.currentView == .details){
+                MenuBar(viewRouter: viewRouter)
+                if(viewRouter.menuShown){
+                    MenuView()
+                }else if(self.viewRouter.currentView == .details){
                     DetailsView()
                 }else{
                     WeatherView()
@@ -54,24 +50,31 @@ struct MainView: View {
 
 struct MenuBar: View {
     
-    let titleFont = Font.custom(Strings.font, size: 16)
+    @ObservedObject var viewRouter = ViewRouter()
     
-    let rightImage = "menu_24pt_white"
-    let leftImage = "menu_24pt_white"
+    let cancelIcon = Image(Strings.menuBar.cancel)
+    let locationIcon = Image(Strings.menuBar.location)
+    let menuIcon = Image(Strings.menuBar.menu)
+    
+    let titleText = Text("WeatherBoard")
+        .font(Font.custom(Strings.font, size: 24))
     
     var body: some View{
-        VStack{
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {Image("menu_24pt_white")} )
-                .padding([.top, .leading], 25.0)
-                .padding(.bottom, 20.0)
+        HStack{
+            Button(action: {
+                viewRouter.menuShown.toggle()
+            }, label: {viewRouter.menuShown ? cancelIcon : menuIcon} )
                 .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
-            Text("WeatherBoard").font(titleFont)
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {Image("menu_24pt_white")} )
-                .padding([.top, .leading], 25.0)
-                .padding(.bottom, 20.0)
+            Spacer()
+            titleText
+                .opacity(viewRouter.menuShown ? 1 : 0)
+            Spacer()
+            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {viewRouter.menuShown ? locationIcon : nil} )
                 .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
             
         }
+        .padding(.horizontal, 30.0)
+        .padding(.vertical, 25)
         
     }
     
@@ -120,34 +123,38 @@ struct NavBar: View{
     var body: some View {
     
         HStack{
-            Spacer()
-            Button(action: {viewRouter.currentView = .today}) {
-                Text("TODAY")
-                    .foregroundColor(.white)
-                    .opacity(viewRouter.currentView == .today ? 1 : 0.5)
-                    .font(navFont)
-                    .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
-            }
-            Spacer(minLength: 23)
-            Button(action: {viewRouter.currentView = .tomorrow}) {
-                Text("TOMORROW")
-                    .foregroundColor(.white)
-                    .opacity(viewRouter.currentView == .tomorrow ? 1 : 0.5)
-                    .font(navFont)
-                    .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
-            }
-            Spacer(minLength: 23)
-            Button(action: {viewRouter.currentView = .details}) {
-                Text("MORE")
-                    .foregroundColor(.white)
-                    .opacity(viewRouter.currentView == .details ? 1 : 0.5)
-                    .font(navFont)
-                    .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
-            }
-            Spacer()
+            if viewRouter.menuShown{
+                Spacer()
+            }else{
+                Spacer()
+                Button(action: {viewRouter.currentView = .today}) {
+                    Text("TODAY")
+                        .foregroundColor(.white)
+                        .opacity(viewRouter.currentView == .today ? 1 : 0.5)
+                        .font(navFont)
+                        .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
+                }
+                Spacer(minLength: 23)
+                Button(action: {viewRouter.currentView = .tomorrow}) {
+                    Text("TOMORROW")
+                        .foregroundColor(.white)
+                        .opacity(viewRouter.currentView == .tomorrow ? 1 : 0.5)
+                        .font(navFont)
+                        .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
+                }
+                Spacer(minLength: 23)
+                Button(action: {viewRouter.currentView = .details}) {
+                    Text("MORE")
+                        .foregroundColor(.white)
+                        .opacity(viewRouter.currentView == .details ? 1 : 0.5)
+                        .font(navFont)
+                        .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
+                }
+                Spacer()
+                }
         }
         .padding(.bottom, 30)
     }

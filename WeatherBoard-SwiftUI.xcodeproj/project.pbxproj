@@ -12,6 +12,8 @@
 		3A220151255458FF00783BB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A220150255458FF00783BB6 /* Assets.xcassets */; };
 		3A220154255458FF00783BB6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A220153255458FF00783BB6 /* Preview Assets.xcassets */; };
 		3A6CDD11255729D50024D6D4 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6CDD10255729D50024D6D4 /* Strings.swift */; };
+		3A7D8F832558AE1900427D60 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7D8F822558AE1900427D60 /* MenuView.swift */; };
+		3A95D437255950280054CF1B /* GradientController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A95D436255950270054CF1B /* GradientController.swift */; };
 		3ABC507E2556A21B002D5285 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABC507D2556A21B002D5285 /* WeatherView.swift */; };
 		3ABC50832556A365002D5285 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABC50822556A365002D5285 /* DetailsView.swift */; };
 		3ABC50882556DCA2002D5285 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABC50872556DCA2002D5285 /* ViewRouter.swift */; };
@@ -27,6 +29,8 @@
 		3A220153255458FF00783BB6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3A220155255458FF00783BB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A6CDD10255729D50024D6D4 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		3A7D8F822558AE1900427D60 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		3A95D436255950270054CF1B /* GradientController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientController.swift; sourceTree = "<group>"; };
 		3ABC507D2556A21B002D5285 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		3ABC50822556A365002D5285 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 		3ABC50872556DCA2002D5285 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
@@ -66,6 +70,7 @@
 			children = (
 				3A22014C255458FB00783BB6 /* WeatherBoard_SwiftUIApp.swift */,
 				3A6CDD10255729D50024D6D4 /* Strings.swift */,
+				3A95D43A255950320054CF1B /* Controllers */,
 				3ABC50852556A3C9002D5285 /* Views */,
 				3A220150255458FF00783BB6 /* Assets.xcassets */,
 				3A220155255458FF00783BB6 /* Info.plist */,
@@ -83,11 +88,20 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		3A95D43A255950320054CF1B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3A95D436255950270054CF1B /* GradientController.swift */,
+				3ABC50872556DCA2002D5285 /* ViewRouter.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		3ABC50852556A3C9002D5285 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3ABC50872556DCA2002D5285 /* ViewRouter.swift */,
 				3A22014E255458FB00783BB6 /* MainView.swift */,
+				3A7D8F822558AE1900427D60 /* MenuView.swift */,
 				3ABC50822556A365002D5285 /* DetailsView.swift */,
 				3ABC507D2556A21B002D5285 /* WeatherView.swift */,
 			);
@@ -174,10 +188,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A7D8F832558AE1900427D60 /* MenuView.swift in Sources */,
 				3ABC50882556DCA2002D5285 /* ViewRouter.swift in Sources */,
 				3ABC507E2556A21B002D5285 /* WeatherView.swift in Sources */,
 				3ABC50832556A365002D5285 /* DetailsView.swift in Sources */,
 				3A22014F255458FB00783BB6 /* MainView.swift in Sources */,
+				3A95D437255950280054CF1B /* GradientController.swift in Sources */,
 				3A6CDD11255729D50024D6D4 /* Strings.swift in Sources */,
 				3A22014D255458FB00783BB6 /* WeatherBoard_SwiftUIApp.swift in Sources */,
 			);

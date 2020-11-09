@@ -16,6 +16,7 @@ class ViewRouter: ObservableObject {
     }
     
     @Published var currentView: viewOptions = .today
+    @Published var menuShown: Bool = false
     
     var isBlurred: Bool{
         return currentView == .details ? true : false
