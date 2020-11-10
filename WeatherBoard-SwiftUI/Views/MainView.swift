@@ -22,7 +22,7 @@ struct MainView: View {
     var body: some View {
         ZStack {
             Group {
-                Background()
+                Background(viewRouter: viewRouter)
                     .blur(radius: viewRouter.isBlurred && !viewRouter.menuShown ? 40 : 0)
                     .scaleEffect(x: viewRouter.isBlurred && !viewRouter.menuShown ? 1.3 : 1, y: viewRouter.isBlurred && !viewRouter.menuShown ? 1.1 : 1, anchor: .center)
                     .saturation(viewRouter.isBlurred && !viewRouter.menuShown ? 1.2 : 1)
@@ -89,13 +89,21 @@ struct MenuBar: View {
 
 struct Background: View{
     
+    @ObservedObject var viewRouter = ViewRouter()
+    
     let bgGradient = Gradient(colors: [Color("grad_clear_day_top"), Color("grad_clear_day_bottom")])
     let hillGradient = Gradient(colors: [Color("hill_clear_day_top"), Color("hill_clear_day_bottom")])
     
+    let menuBgGradient = Gradient(colors: [Color("grad_menu_top"), Color("grad_menu_bottom")])
+    let menuHillGradient = Gradient(colors: [Color("grad_menu_top"), Color("grad_menu_bottom")])
+    
+    
     var body: some View{
         
-        LinearGradient(gradient: bgGradient, startPoint: /*@START_MENU_TOKEN@*/.top/*@END_MENU_TOKEN@*/, endPoint: UnitPoint(x: 0, y: 0.6)).edgesIgnoringSafeArea(.all)
-        LinearGradient(gradient: hillGradient, startPoint: UnitPoint(x: 0, y: 0.6), endPoint: /*@START_MENU_TOKEN@*/.bottom/*@END_MENU_TOKEN@*/)
+        LinearGradient(gradient: viewRouter.menuShown ? menuBgGradient : bgGradient, startPoint: /*@START_MENU_TOKEN@*/.top/*@END_MENU_TOKEN@*/, endPoint: UnitPoint(x: 0.5, y: 0.6)).edgesIgnoringSafeArea(.all)
+            .animation(.easeInOut(duration: 1))
+        LinearGradient(gradient: viewRouter.menuShown ? menuHillGradient : hillGradient, startPoint: UnitPoint(x: 0.5, y: 0.8), endPoint: /*@START_MENU_TOKEN@*/.bottom/*@END_MENU_TOKEN@*/)
+            .animation(.easeInOut(duration: 1))
             .mask(
             VStack {
                 Spacer()
@@ -105,8 +113,7 @@ struct Background: View{
                     
             })
             .edgesIgnoringSafeArea(.vertical)
-        
-        
+            
     }
     
 }

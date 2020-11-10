@@ -70,7 +70,7 @@
 			children = (
 				3A22014C255458FB00783BB6 /* WeatherBoard_SwiftUIApp.swift */,
 				3A6CDD10255729D50024D6D4 /* Strings.swift */,
-				3A95D43A255950320054CF1B /* Controllers */,
+				3A95D43E25595AE30054CF1B /* Controllers */,
 				3ABC50852556A3C9002D5285 /* Views */,
 				3A220150255458FF00783BB6 /* Assets.xcassets */,
 				3A220155255458FF00783BB6 /* Info.plist */,
@@ -88,13 +88,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		3A95D43A255950320054CF1B /* Controllers */ = {
+		3A95D43E25595AE30054CF1B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				3A95D436255950270054CF1B /* GradientController.swift */,
 				3ABC50872556DCA2002D5285 /* ViewRouter.swift */,
 			);
-			path = Controllers;
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		3ABC50852556A3C9002D5285 /* Views */ = {

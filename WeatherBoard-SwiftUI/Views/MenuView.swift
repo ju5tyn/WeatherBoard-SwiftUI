@@ -20,16 +20,18 @@ struct MenuView: View {
             }
             .padding(.vertical, 8)
                 
-            MenuButton()
-            MenuButton()
-            MenuButton()
-            MenuButton()
+            MenuButton(isCurrentLocation: true)
+            MenuButton(isCurrentLocation: false)
+            MenuButton(isCurrentLocation: false)
+            MenuButton(isCurrentLocation: false)
         }
-        .padding(.horizontal, 25.0)
+        .padding(.horizontal, 30.0)
     }
 }
 
 struct MenuButton: View{
+    
+    let isCurrentLocation: Bool
     
     let bgGradient = Gradient(colors: [Color("button_clear_day_top"), Color("button_clear_day_bottom")])
     
@@ -39,16 +41,21 @@ struct MenuButton: View{
             ZStack {
                 LinearGradient(gradient: bgGradient, startPoint: /*@START_MENU_TOKEN@*/.top/*@END_MENU_TOKEN@*/, endPoint: .bottom)
                 HStack {
+                    if isCurrentLocation{
+                        Image(Strings.menuBar.location)
+                            .padding(.leading, 13)
+                    }
                     Text("Button")
                         .font(Font.custom(Strings.font, size: 20))
                         .foregroundColor(.white)
-                        .padding(.leading)
+                        .padding(.leading, isCurrentLocation ? 0 : 13)
                         .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                     Spacer()
                 }
             }
-            .frame(width: .infinity, height: 50, alignment: .center)
+            .frame(width: .infinity, height: 48, alignment: .center)
             .cornerRadius(12)
+            .padding(.vertical, 3)
         })
         
     }
@@ -65,8 +72,8 @@ struct SearchBar: View {
         HStack {
  
             TextField("Search for a location", text: $text)
-                .padding(.vertical, 12)
-                .padding(.horizontal, 40)
+                .padding(.vertical, 7)
+                .padding(.horizontal, 35)
                 .background(Color(#colorLiteral(red: 0.5960784314, green: 0.5960784314, blue: 0.6156862745, alpha: 0.201171875)))
                 .cornerRadius(12)
                 //.padding(.horizontal, 10)
@@ -79,7 +86,7 @@ struct SearchBar: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.gray)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 15)
+                    .padding(.leading, 10)
          
                 if isEditing {
                     Button(action: {
