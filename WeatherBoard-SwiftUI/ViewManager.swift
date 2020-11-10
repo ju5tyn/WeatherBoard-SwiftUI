@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-class ViewRouter: ObservableObject {
+class ViewManager: ObservableObject {
     
     enum viewOptions: String{
         case today, tomorrow, details
@@ -23,5 +23,5 @@ class ViewRouter: ObservableObject {
     }
     
     @Published var currentCell: Int = 0
-    
+    @Published var currentGradient: String = "clear_day"
 }

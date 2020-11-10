@@ -14,7 +14,7 @@ struct MenuView: View {
                 .padding(.top, -10)
             HStack {
                 Text("History")
-                    .font(Font.custom(Strings.font, size: 16))
+                    .font(Font.custom(Constants.font, size: 16))
                     .foregroundColor(.white)
                 Spacer()
             }
@@ -26,6 +26,7 @@ struct MenuView: View {
             MenuButton(isCurrentLocation: false)
         }
         .padding(.horizontal, 30.0)
+        
     }
 }
 
@@ -42,11 +43,11 @@ struct MenuButton: View{
                 LinearGradient(gradient: bgGradient, startPoint: /*@START_MENU_TOKEN@*/.top/*@END_MENU_TOKEN@*/, endPoint: .bottom)
                 HStack {
                     if isCurrentLocation{
-                        Image(Strings.menuBar.location)
+                        Image(Constants.menuBar.location)
                             .padding(.leading, 13)
                     }
                     Text("Button")
-                        .font(Font.custom(Strings.font, size: 20))
+                        .font(Font.custom(Constants.font, size: 20))
                         .foregroundColor(.white)
                         .padding(.leading, isCurrentLocation ? 0 : 13)
                         .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)

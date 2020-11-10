@@ -10,66 +10,58 @@ import Combine
 
 let shadowColor = Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.2)
 
+
+//MARK: - Root View
+
 struct MainView: View {
     
-    @ObservedObject var viewRouter = ViewRouter()
-    
-    let bgGradient = Gradient(colors: [Color("grad_clear_day_top"), Color("grad_clear_day_bottom")])
-    let hillGradient = Gradient(colors: [Color("hill_clear_day_top"), Color("hill_clear_day_bottom")])
-    
+    @ObservedObject var viewManager = ViewManager()
     
     //view
     var body: some View {
         ZStack {
-            Group {
-                Background(viewRouter: viewRouter)
-                    .blur(radius: viewRouter.isBlurred && !viewRouter.menuShown ? 40 : 0)
-                    .scaleEffect(x: viewRouter.isBlurred && !viewRouter.menuShown ? 1.3 : 1, y: viewRouter.isBlurred && !viewRouter.menuShown ? 1.1 : 1, anchor: .center)
-                    .saturation(viewRouter.isBlurred && !viewRouter.menuShown ? 1.2 : 1)
-                    .animation(.easeInOut(duration: 0.2))
-                Rectangle()
-                    .foregroundColor(viewRouter.isBlurred && !viewRouter.menuShown ? Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.1) : .clear)
-            }
-            .edgesIgnoringSafeArea(.all)
+            Background(viewManager: viewManager)
             VStack {
-                //Menu button
-                MenuBar(viewRouter: viewRouter)
-                if(viewRouter.menuShown){
+                MenuBar(viewManager: viewManager)
+                if(viewManager.menuShown){
                     MenuView()
-                }else if(self.viewRouter.currentView == .details){
+                }else if(self.viewManager.currentView == .details){
                     DetailsView()
                 }else{
                     WeatherView()
                 }
                 Spacer()
-                NavBar(viewRouter: viewRouter)
+                NavBar(viewManager: viewManager)
             }.animation(.easeInOut(duration: 0.2))
         }
+        
     }
 }
 
+//MARK: - Menu Bar
+
 struct MenuBar: View {
     
-    @ObservedObject var viewRouter = ViewRouter()
+    @ObservedObject var viewManager = ViewManager()
     
-    let cancelIcon = Image(Strings.menuBar.cancel)
-    let locationIcon = Image(Strings.menuBar.location)
-    let menuIcon = Image(Strings.menuBar.menu)
+    let cancelIcon = Image(Constants.menuBar.cancel)
+    let locationIcon = Image(Constants.menuBar.location)
+    let menuIcon = Image(Constants.menuBar.menu)
     
     let titleText = Text("WeatherBoard")
-        .font(Font.custom(Strings.font, size: 24))
+        .font(Font.custom(Constants.font, size: 24))
     
     var body: some View{
         HStack{
             Button(action: {
-                viewRouter.menuShown.toggle()
-            }, label: {viewRouter.menuShown ? cancelIcon : menuIcon} )
+                viewManager.menuShown.toggle()
+            }, label: {viewManager.menuShown ? cancelIcon : menuIcon} )
                 .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
             Spacer()
             titleText
-                .opacity(viewRouter.menuShown ? 1 : 0)
+                .opacity(viewManager.menuShown ? 1 : 0)
             Spacer()
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {viewRouter.menuShown ? locationIcon : nil} )
+            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {viewManager.menuShown ? locationIcon : nil} )
                 .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
             
         }
@@ -85,77 +77,156 @@ struct MenuBar: View {
 }
 
 
-//MARK: - Blur effect
+//MARK: - Background
 
 struct Background: View{
     
-    @ObservedObject var viewRouter = ViewRouter()
+    @ObservedObject var viewManager = ViewManager()
+
+    let bgGradientView = GradientView(isHill: false)
+    let hillGradientView = GradientView(isHill: true)
     
-    let bgGradient = Gradient(colors: [Color("grad_clear_day_top"), Color("grad_clear_day_bottom")])
-    let hillGradient = Gradient(colors: [Color("hill_clear_day_top"), Color("hill_clear_day_bottom")])
-    
-    let menuBgGradient = Gradient(colors: [Color("grad_menu_top"), Color("grad_menu_bottom")])
-    let menuHillGradient = Gradient(colors: [Color("grad_menu_top"), Color("grad_menu_bottom")])
-    
+    func setGradients(condition: String){
+        bgGradientView.setGradient(condition: condition)
+        hillGradientView.setGradient(condition: condition)
+    }
     
     var body: some View{
+        ZStack {
+            Group {
+                bgGradientView
+                hillGradientView
+                    .mask(
+                    VStack {
+                        Spacer()
+                        Image("hills")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    })
+                    .edgesIgnoringSafeArea(.vertical)
+            }
+            .blur(radius: viewManager.isBlurred && !viewManager.menuShown ? 40 : 0)
+            .scaleEffect(x: viewManager.isBlurred && !viewManager.menuShown ? 1.3 : 1, y: viewManager.isBlurred && !viewManager.menuShown ? 1.1 : 1, anchor: .center)
+            .saturation(viewManager.isBlurred && !viewManager.menuShown ? 1.2 : 1)
+            .animation(.easeInOut(duration: 0.2))
+            Rectangle()
+                .foregroundColor(viewManager.isBlurred && !viewManager.menuShown ? Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.1) : .clear)
+        }
+        .edgesIgnoringSafeArea(.all)
+        .onChange(of: viewManager.currentGradient, perform: { value in
+            setGradients(condition: viewManager.currentGradient)
+        })
+        .onChange(of: viewManager.menuShown, perform: { menuShown in
+            if menuShown{
+                withAnimation(.spring()) {
+                    setGradients(condition: "menu")
+                }
+            }else{
+                withAnimation(.spring()) {
+                    print("Current viewmanager is \(viewManager.currentGradient)")
+                    setGradients(condition: viewManager.currentGradient)
+                }
+            }
+        })
+    }
+    
+    
+    
+}
+
+
+
+//MARK: - GradientView
+struct GradientView: View {
+    
+    var isHill: Bool
+    
+    var gradType: String{
+        return isHill ? "hill" : "grad"
+    }
+    
+    //makes 2 identical gradients
+    @State private var gradientA: [Color] = [.black, .black]
+    @State private var gradientB: [Color] = [.black, .black]
+    
+    @State var firstPlane: Bool = true
+    
+    
+    func setGradient(condition: String) {
         
-        LinearGradient(gradient: viewRouter.menuShown ? menuBgGradient : bgGradient, startPoint: /*@START_MENU_TOKEN@*/.top/*@END_MENU_TOKEN@*/, endPoint: UnitPoint(x: 0.5, y: 0.6)).edgesIgnoringSafeArea(.all)
-            .animation(.easeInOut(duration: 1))
-        LinearGradient(gradient: viewRouter.menuShown ? menuHillGradient : hillGradient, startPoint: UnitPoint(x: 0.5, y: 0.8), endPoint: /*@START_MENU_TOKEN@*/.bottom/*@END_MENU_TOKEN@*/)
-            .animation(.easeInOut(duration: 1))
-            .mask(
-            VStack {
-                Spacer()
-                Image("hills")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    
-            })
-            .edgesIgnoringSafeArea(.vertical)
-            
+        print("CONDITION IS \(condition)")
+        
+        let gradient : [Color] = [Color("\(gradType)_\(condition)_top"),
+                                  Color("\(gradType)_\(condition)_bottom")]
+        
+        print(gradient)
+        
+        firstPlane ? (gradientB = gradient) : (gradientA = gradient)
+        firstPlane = !firstPlane
+        
+        print("grad sset")
+        
+        print("GRADIENT A IS \(gradientA)")
+        print("GRADIENT B IS \(gradientB)")
+    }
+    
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .fill(LinearGradient(gradient: Gradient(colors: self.gradientA),
+                                     startPoint: isHill ? UnitPoint(x: 0.5, y: 0.6) : .top,
+                                     endPoint: isHill ? .bottom : UnitPoint(x: 0.5, y: 0.8))
+                )
+            Rectangle()
+                .fill(LinearGradient(gradient: Gradient(colors: self.gradientB),
+                                     startPoint: UnitPoint(x: 0, y: 0),
+                                     endPoint: UnitPoint(x: 0, y: 1))
+                )
+                .opacity(self.firstPlane ? 0 : 1)
+        }
     }
     
 }
+
 
 //MARK: - Navigation Bar
 
 struct NavBar: View{
     
-    @ObservedObject var viewRouter: ViewRouter
+    @ObservedObject var viewManager: ViewManager
     
-    let navFont = Font.custom(Strings.font, size: 16)
+    let navFont = Font.custom(Constants.font, size: 16)
     let shadowColor = Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 0.3)
     
     var body: some View {
     
         HStack{
-            if viewRouter.menuShown{
+            if viewManager.menuShown{
                 Spacer()
             }else{
                 Spacer()
-                Button(action: {viewRouter.currentView = .today}) {
+                Button(action: {viewManager.currentView = .today}) {
                     Text("TODAY")
                         .foregroundColor(.white)
-                        .opacity(viewRouter.currentView == .today ? 1 : 0.5)
+                        .opacity(viewManager.currentView == .today ? 1 : 0.5)
                         .font(navFont)
                         .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                 }
                 Spacer(minLength: 23)
-                Button(action: {viewRouter.currentView = .tomorrow}) {
+                Button(action: {viewManager.currentView = .tomorrow}) {
                     Text("TOMORROW")
                         .foregroundColor(.white)
-                        .opacity(viewRouter.currentView == .tomorrow ? 1 : 0.5)
+                        .opacity(viewManager.currentView == .tomorrow ? 1 : 0.5)
                         .font(navFont)
                         .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)
                 }
                 Spacer(minLength: 23)
-                Button(action: {viewRouter.currentView = .details}) {
+                Button(action: {viewManager.currentView = .details}) {
                     Text("MORE")
                         .foregroundColor(.white)
-                        .opacity(viewRouter.currentView == .details ? 1 : 0.5)
+                        .opacity(viewManager.currentView == .details ? 1 : 0.5)
                         .font(navFont)
                         .frame(width: 93.5, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .shadow(color: shadowColor, radius: 3.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 2)

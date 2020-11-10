@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct Strings {
+struct Constants {
     
     
     //font string
@@ -22,4 +23,12 @@ struct Strings {
         
     }
     
+    struct grad {
+        
+        static let defaultBg: [Color] = [Color("grad_clear_day_top"),
+                                             Color("grad_clear_day_bottom")]
+        static let defaultHill: [Color] = [Color("hill_menu_top"),
+                                               Color("hill_menu_bottom")]
+        
+    }
 }

@@ -14,17 +14,19 @@ import SwiftUI
 
 struct DetailsView: View{
     
-    @ObservedObject var viewRouter = ViewRouter()
+    @ObservedObject var viewManager = ViewManager()
     
     var body: some View{
         
         ScrollView{
             ForEach(/*@START_MENU_TOKEN@*/0 ..< 5/*@END_MENU_TOKEN@*/) { id in
-                DetailsCell(extended: false, id: id, viewRouter: viewRouter)
+                DetailsCell(extended: false, id: id, viewManager: viewManager)
             }
 
         }
-        
+        .onAppear(perform: {
+            viewManager.currentGradient = "clear_day"
+        })
     }
 }
 
@@ -37,14 +39,14 @@ struct DetailsCell: View{
     @State var extended: Bool
     
     var id: Int
-    @ObservedObject var viewRouter = ViewRouter()
+    @ObservedObject var viewManager = ViewManager()
     
-    let exDayFont = Font.custom(Strings.font, size: 15)
-    let dayFont = Font.custom(Strings.font, size: 20)
-    let conditionFont = Font.custom(Strings.font, size: 35)
-    let hiLoFont = Font.custom(Strings.font, size: 18)
-    let exTempFont = Font.custom(Strings.font, size: 50)
-    let tempFont = Font.custom(Strings.font, size: 25)
+    let exDayFont = Font.custom(Constants.font, size: 15)
+    let dayFont = Font.custom(Constants.font, size: 20)
+    let conditionFont = Font.custom(Constants.font, size: 35)
+    let hiLoFont = Font.custom(Constants.font, size: 18)
+    let exTempFont = Font.custom(Constants.font, size: 50)
+    let tempFont = Font.custom(Constants.font, size: 25)
     
     var body: some View{
         
@@ -110,13 +112,13 @@ struct DetailsCell: View{
         .animation(.easeInOut(duration: 0.2))
         .contentShape(Rectangle())
         .onTapGesture(perform: {
-            viewRouter.currentCell = id
+            viewManager.currentCell = id
         })
         .onAppear(perform: {
-            extended = viewRouter.currentCell == id ? true : false
+            extended = viewManager.currentCell == id ? true : false
         })
-        .onChange(of: viewRouter.currentCell, perform: { value in
-            extended = viewRouter.currentCell == id ? true : false
+        .onChange(of: viewManager.currentCell, perform: { value in
+            extended = viewManager.currentCell == id ? true : false
         })
     }
     
@@ -132,9 +134,9 @@ struct DetailsRect: View{
     let hasSubheading: Bool
     let icon: IconType
     
-    let rectLargeFont = Font.custom(Strings.font, size: 20)
-    let rectMedFont = Font.custom(Strings.font, size: 15)
-    let rectSmallFont = Font.custom(Strings.font, size: 12)
+    let rectLargeFont = Font.custom(Constants.font, size: 20)
+    let rectMedFont = Font.custom(Constants.font, size: 15)
+    let rectSmallFont = Font.custom(Constants.font, size: 12)
     
     var body: some View{
         
