@@ -20,7 +20,7 @@ struct MainView: View {
     //view
     var body: some View {
         ZStack {
-            Background(viewManager: viewManager)
+            //Background(viewManager: viewManager)
             VStack {
                 MenuBar(viewManager: viewManager)
                 if(viewManager.menuShown){
@@ -34,7 +34,6 @@ struct MainView: View {
                 NavBar(viewManager: viewManager)
             }.animation(.easeInOut(duration: 0.2))
         }
-        
     }
 }
 
@@ -82,20 +81,12 @@ struct MenuBar: View {
 struct Background: View{
     
     @ObservedObject var viewManager = ViewManager()
-
-    let bgGradientView = GradientView(isHill: false)
-    let hillGradientView = GradientView(isHill: true)
-    
-    func setGradients(condition: String){
-        bgGradientView.setGradient(condition: condition)
-        hillGradientView.setGradient(condition: condition)
-    }
     
     var body: some View{
         ZStack {
             Group {
-                bgGradientView
-                hillGradientView
+                Rectangle()
+                Rectangle()
                     .mask(
                     VStack {
                         Spacer()
@@ -113,27 +104,13 @@ struct Background: View{
                 .foregroundColor(viewManager.isBlurred && !viewManager.menuShown ? Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.1) : .clear)
         }
         .edgesIgnoringSafeArea(.all)
-        .onChange(of: viewManager.currentGradient, perform: { value in
-            setGradients(condition: viewManager.currentGradient)
-        })
-        .onChange(of: viewManager.menuShown, perform: { menuShown in
-            if menuShown{
-                withAnimation(.spring()) {
-                    setGradients(condition: "menu")
-                }
-            }else{
-                withAnimation(.spring()) {
-                    print("Current viewmanager is \(viewManager.currentGradient)")
-                    setGradients(condition: viewManager.currentGradient)
-                }
-            }
-        })
+
+        
     }
     
     
     
 }
-
 
 
 //MARK: - GradientView
@@ -146,28 +123,21 @@ struct GradientView: View {
     }
     
     //makes 2 identical gradients
-    @State private var gradientA: [Color] = [.black, .black]
-    @State private var gradientB: [Color] = [.black, .black]
-    
+    @State var gradientA: [Color] = [.black, .black]
+    @State var gradientB: [Color] = [.black, .black]
     @State var firstPlane: Bool = true
     
     
     func setGradient(condition: String) {
-        
-        print("CONDITION IS \(condition)")
-        
         let gradient : [Color] = [Color("\(gradType)_\(condition)_top"),
                                   Color("\(gradType)_\(condition)_bottom")]
-        
-        print(gradient)
-        
         firstPlane ? (gradientB = gradient) : (gradientA = gradient)
         firstPlane = !firstPlane
-        
-        print("grad sset")
-        
-        print("GRADIENT A IS \(gradientA)")
-        print("GRADIENT B IS \(gradientB)")
+    }
+    
+    func setGradient(gradient: [Color]) {
+        firstPlane ? (gradientB = gradient) : (gradientA = gradient)
+        firstPlane = !firstPlane
     }
     
     var body: some View {
@@ -183,6 +153,10 @@ struct GradientView: View {
                                      endPoint: UnitPoint(x: 0, y: 1))
                 )
                 .opacity(self.firstPlane ? 0 : 1)
+        }.onTapGesture {
+            withAnimation(.spring()) {
+                self.setGradient(gradient: [Color.random(), Color.random()])
+            }
         }
     }
     
@@ -196,7 +170,7 @@ struct NavBar: View{
     @ObservedObject var viewManager: ViewManager
     
     let navFont = Font.custom(Constants.font, size: 16)
-    let shadowColor = Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 0.3)
+    let shadowColor = Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.3)
     
     var body: some View {
     

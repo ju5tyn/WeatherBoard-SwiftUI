@@ -13,6 +13,9 @@ struct Constants {
     
     //font string
     static let font = "SFCompactText-Bold"
+    
+    static let mainURL = "https://api.openweathermap.org/data/2.5/onecall?units=metric&appid="
+    
 
     struct menuBar {
         
@@ -29,6 +32,16 @@ struct Constants {
                                              Color("grad_clear_day_bottom")]
         static let defaultHill: [Color] = [Color("hill_menu_top"),
                                                Color("hill_menu_bottom")]
+        
+    }
+    
+    struct particles{
+        
+        static let rainParticle = "RainParticle.sks"
+        static let snowParticle = "SnowParticle.sks"
+        static let stormParticle = "StormParticle.sks"
+        static let starParticle = "StarParticle.sks"
+        static let starParticleCloudy = "StarParticleCloudy.sks"
         
     }
 }
