@@ -34,7 +34,7 @@ struct Daily: Decodable{
     let wind_speed: Double
     let wind_deg: Double
     let pop: Double
-    let visibility: Double
+    //let visibility: Double
 
 }
 

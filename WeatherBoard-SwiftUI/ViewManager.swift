@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-class ViewManager: ObservableObject {
+class ViewManager: ObservableObject, Identifiable {
     
     enum viewOptions: String{
         case today, tomorrow, details
@@ -18,10 +18,14 @@ class ViewManager: ObservableObject {
     @Published var currentView: viewOptions = .today
     @Published var menuShown: Bool = false
     
+    @Published var currentCell: Int = 0
+    @Published var currentGradient: String = "clear_day"
+    
+    @Published var weatherModel: WeatherModel? = nil
+    
     var isBlurred: Bool{
         return currentView == .details ? true : false
     }
     
-    @Published var currentCell: Int = 0
-    @Published var currentGradient: String = "clear_day"
+    
 }

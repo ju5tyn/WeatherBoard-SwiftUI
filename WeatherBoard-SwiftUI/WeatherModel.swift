@@ -66,7 +66,7 @@ struct WeatherModel{
         let windSpeed: Double
         let windDirection: Double
         let precip: Double
-        let visibility: Double //this is in metres
+        //let visibility: Double //this is in metres
         
         var dayString: String { return convertToDayString(dt) }
         var tempString: String { return "\(String(format: "%.0f", temp))°" }
@@ -76,7 +76,7 @@ struct WeatherModel{
         var windSpeedString: String { return String(format: "%.1fM/S", Double(windSpeed)) }
         var windDirectionString: String { return windDirection.direction.description.uppercased() }
         var precipString: String { return "\(String(format: "%.0f", precip*100))%" }
-        var visibilityString: String { return String(format: "%.0fKM", Double(visibility/1000)) } //returns visibility string in KM
+        //var visibilityString: String { return String(format: "%.0fKM", Double(visibility/1000)) } //returns visibility string in KM
     }
     
 }

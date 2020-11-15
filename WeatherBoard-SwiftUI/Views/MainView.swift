@@ -7,15 +7,17 @@
 
 import SwiftUI
 import Combine
+import CoreLocation
 
 let shadowColor = Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.2)
-
+//var weatherManager = WeatherManager()
 
 //MARK: - Root View
 
 struct MainView: View {
-    
+ 
     @ObservedObject var viewManager = ViewManager()
+    @ObservedObject var locationManager = LocationManager()
     
     //view
     var body: some View {
@@ -26,14 +28,15 @@ struct MainView: View {
                 if(viewManager.menuShown){
                     MenuView()
                 }else if(self.viewManager.currentView == .details){
-                    DetailsView()
+                    DetailsView(viewManager: viewManager)
                 }else{
-                    WeatherView()
+                    WeatherView(viewManager: viewManager)
                 }
                 Spacer()
                 NavBar(viewManager: viewManager)
             }.animation(.easeInOut(duration: 0.2))
         }
+        
     }
 }
 
@@ -68,11 +71,6 @@ struct MenuBar: View {
         .padding(.vertical, 25)
         
     }
-    
-    
-    
-    
-    
 }
 
 
@@ -211,11 +209,6 @@ struct NavBar: View{
         .padding(.bottom, 30)
     }
 }
-
-
-
-
-
 
 //MARK: - preview
 

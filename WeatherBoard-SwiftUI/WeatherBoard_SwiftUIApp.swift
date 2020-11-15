@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Foundation
+
 @main
 struct WeatherBoard_SwiftUIApp: App {
     
@@ -16,8 +18,14 @@ struct WeatherBoard_SwiftUIApp: App {
         WindowGroup {
             MainView()
                 .colorScheme(.dark)
+                .onAppear(perform: {
+                    
+                    
+                })
             
             
         }
     }
 }
+
+
