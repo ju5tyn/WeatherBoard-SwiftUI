@@ -1,11 +1,3 @@
-//
-//  weatherManager.swift
-//  Clima
-//
-//  Created by Justyn Henman on 10/06/2020.
-//  Copyright © 2020 App Brewery. All rights reserved.
-//
-
 import Foundation
 import CoreLocation
 
@@ -88,8 +80,15 @@ struct WeatherManager {
             
             
             
-            //returns weather model to the caller
-            return WeatherModel()
+            
+            return WeatherModel(lat: decodedData.lat,
+                                lon: decodedData.lon,
+                                timeZoneOffset: decodedData.timezone_offset,
+                                isCurrentLocation: false,
+                                doNotSave: false,
+                                current: getCurrent(decodedData),
+                                daily: getDailyArray(decodedData)
+            )
             
         } catch {
             delegate?.didFailWithError(error: error)
@@ -101,6 +100,47 @@ struct WeatherManager {
         
     }
 
+    func getCurrent(_ decodedData: WeatherData) -> WeatherModel.Current{
+        
+        let data = decodedData.current
+        
+        return WeatherModel.Current(id: data.weather[0].id,
+                                    main: data.weather[0].main,
+                                    dt: data.dt,
+                                    sunrise: data.sunrise,
+                                    sunset: data.sunset,
+                                    temp: data.temp
+        )
+        
+        
+    }
+    
+    func getDailyArray(_ decodedData: WeatherData) -> [WeatherModel.Daily]{
+        var array: [WeatherModel.Daily] = []
+        for day in 0...4{ array.append(getDaily(decodedData, day)) }
+        return array
+    }
+    
+    
+    func getDaily(_ decodedData: WeatherData, _ day: Int) -> WeatherModel.Daily{
+        
+        let data = decodedData.daily[day]
+        
+        return WeatherModel.Daily(id: data.weather[0].id,
+                                  main: data.weather[0].main,
+                                  dt: data.dt,
+                                  sunrise: data.sunrise,
+                                  sunset: data.sunset,
+                                  temp: data.temp.day,
+                                  highTemp: data.temp.max,
+                                  lowTemp: data.temp.min,
+                                  cloudCover: data.clouds,
+                                  windSpeed: data.wind_speed,
+                                  windDirection: data.wind_deg,
+                                  precip: data.pop,
+                                  visibility: data.visibility)
+        
+    }
     
 }
 

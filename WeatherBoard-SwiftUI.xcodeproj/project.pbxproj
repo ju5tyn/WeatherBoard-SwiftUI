@@ -80,11 +80,11 @@
 			children = (
 				3A22014C255458FB00783BB6 /* WeatherBoard_SwiftUIApp.swift */,
 				3ABA835B255CA0E300C07BCC /* Constants */,
-				3AF54EE8255AA1CF00668994 /* GradientTest.swift */,
 				3ABA8358255C5FA000C07BCC /* Model */,
 				3A95D43E25595AE30054CF1B /* Controllers */,
 				3ABC50852556A3C9002D5285 /* Views */,
 				3A220150255458FF00783BB6 /* Assets.xcassets */,
+				3AF54EE8255AA1CF00668994 /* GradientTest.swift */,
 				3A220155255458FF00783BB6 /* Info.plist */,
 				3AF99CF52555408C00072937 /* Resources */,
 				3A220152255458FF00783BB6 /* Preview Content */,

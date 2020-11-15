@@ -15,7 +15,6 @@ struct Constants {
     static let font = "SFCompactText-Bold"
     
     static let mainURL = "https://api.openweathermap.org/data/2.5/onecall?units=metric&appid="
-    
 
     struct menuBar {
         

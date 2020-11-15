@@ -1,41 +1,41 @@
-//
-//  WeatherData.swift
-//  Clima
-//
-//  Created by Justyn Henman on 27/06/2020.
-//  Copyright © 2020 App Brewery. All rights reserved.
-//
-
 import Foundation
 
 struct WeatherData: Decodable {
 
+    let lat: Double
+    let lon: Double
+    let timezone_offset: Int
+    
     let current: Current
     let daily: [Daily]
     
 }
 
 struct Current: Decodable {
+     
+    let weather: [Weather]
     
     let dt: Int
     let sunrise: Int
     let sunset: Int
-    let weather: Weather
-    
+    let temp: Double
+
 }
 
 struct Daily: Decodable{
     
-    let dt: Double
-    let main: Main
-    let weather: Weather
+    let weather: [Weather]
+    
+    let dt: Int
+    let sunrise: Int
+    let sunset: Int
+    let temp: Temp
     let clouds: Int
-    let pop: Double
-    let visibility: Double
     let wind_speed: Double
     let wind_deg: Double
-    let temp: Temp
-    
+    let pop: Double
+    let visibility: Double
+
 }
 
 struct Temp: Decodable {
